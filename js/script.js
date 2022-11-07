@@ -79,7 +79,7 @@ if(ingresar()){
                 let vencimientoTarjetaSaved = '530';
                 let codigoSeguridadTarjetaSaved = '123';
                 alert('Usted lleva en su carrito un total de ARS$' + total);
-                let pago = prompt('Elegí el tipo de tarjeta que posee: \n1- Visa \n2- Mastercard');
+                let pago = prompt('Elegí el tipo de tarjeta que posee: \n1- Visa \n2- Mastercard \n3- Vaciar carrito');
                 switch(pago){
                     case '1':
                         let numeroTarjeta = prompt('Ingrese el número de su tarjeta:');
@@ -100,6 +100,11 @@ if(ingresar()){
                         }else{
                             alert('Los datos ingresados son incorrectos');
                         }
+                    case '3':
+                        valorCarrito.splice(0);
+                        total = 0;
+                        alert('Total a pagar: ARS$' + total);
+                        break;
                     default: 
                         alert('La opción elegida no es correcta.');
                         break;
