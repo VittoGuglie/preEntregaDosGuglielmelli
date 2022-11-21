@@ -22,7 +22,6 @@ const inputMailLogin = document.getElementById('emailLogin'),
     modalEl = document.getElementById('modalLogin'),
     modal = new bootstrap.Modal(modalEl),
     contTarjetas = document.getElementById('tarjetas'),
-    verCarrito = document.getElementById('carrito'),
     modalCart = document.getElementById('modalCart'),
     elementosToggleables = document.querySelectorAll('.toggeable');
 function ingresar(){
@@ -87,7 +86,6 @@ let precioProductoDos = sumarIva(videojuegos[1].precio);
 let precioProductoTres = sumarIva(videojuegos[2].precio);
 let precioProductoCuatro = sumarIva(restarDescuento(videojuegos[3].precio));
 let precioProductoCinco = sumarIva(videojuegos[4].precio);
-let valorCarrito = [];
 function mostrarVideojuegos(videojuegos) {
     contTarjetas.innerHTML = '';
     let content = videojuegos.forEach(videojuego => {
@@ -100,17 +98,23 @@ function mostrarVideojuegos(videojuegos) {
                     <p class="card-text" id="generoVideojuego">Genero: ${videojuego.genero}</p>
                     <p class="card-text" id="desarrolladorVideojuego">Desarrollador: ${videojuego.desarrollador}</p>
                     <p class="card-text" id="descripcionVideojuego">${videojuego.descripcion}</p>
-                    <button onclick="enable()" class="btn btn-dark" id="addToCart">Añadir al carrito</button>
+                    <button class="btn btn-dark" id="addToCart${videojuego.id}">Añadir al carrito</button>
                 </div>
             </div>`;
         contTarjetas.innerHTML += html;
-        const addToCartBtns = document.querySelectorAll('.addToCart');
-        addToCartBtns.disabled = false;
-        addToCartBtns.forEach(addToCartBtn => {
-        addToCartBtn.addEventListener('click', ()=> console.log('se hizo click aqui'));
+        const addToCartBtns = document.getElementById(`addToCart${videojuego.id}`);
+        addToCartBtns.addEventListener('click', () => {
+            agregarAlCarrito(videojuego.id);
         });
     });
 }
+const carrito = [];
+const agregarAlCarrito = (id) => {
+    const producto = videojuegos.find(videojuego => videojuego.id === id);
+    carrito.push(videojuego);
+}
+const contenedorCarrito = document.getElementById('modalCart');
+const verCarrito = document.getElementById('carrito');
 function presentarInfo(videojuegos, clase) {
     videojuegos.forEach(videojuego => {
         videojuego.classList.toggle(clase);
