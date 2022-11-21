@@ -24,6 +24,11 @@ const inputMailLogin = document.getElementById('emailLogin'),
     contTarjetas = document.getElementById('tarjetas'),
     modalCart = document.getElementById('modalCart'),
     elementosToggleables = document.querySelectorAll('.toggeable');
+//Muestro el carrito de compras modificando el DOM.
+const contenedorCarrito = document.getElementById('modalCart');
+const verCarrito = document.getElementById('carrito');
+//Opcion pagar del carrito de compras
+const pagar = document.getElementById('pagar');
 function ingresar(){
     const found = usuarios.find((usuario) => usuario.email == inputMailLogin.value);
     console.log(found)
@@ -79,8 +84,43 @@ const videojuegos = [
     new videojuego('Slime Rancher', 'Monomi Park', 'Adventure', 2017, 1418, 4, './assets/img/slimeranchercard.jpg', 'Slime Rancher es la historia de Beatrix LeBeau, una intrépida y joven ranchera que se prepara para una vida a mil años luz de la Tierra en la Lejana, Lejana Pradera, donde prueba su suerte para ganarse la vida lidiando con slimes.'),
     new videojuego('Spider-man Remastered', 'Insomniac Games, Nixxes Software', 'Action', 2022, 4999, 5, './assets/img/spidermancard.jpg', 'En Marvels Spider-Man Remasterizado, la vida de Peter Parker se topa con la de Spider-Man en una historia original repleta de acción. Ponte en la piel de un Peter Parker veterano que ha pulido sus habilidades en la lucha contra el crimen y los villanos en la Nueva York de Marvel.')
 ]
+//Creo el carrito de compras y una función que busque el producto por id y lo agregue al carrito.
+const carrito = [];
+verCarrito.addEventListener('click', actualizarCarrito);
+const agregarAlCarrito = (id) => {
+    const producto = videojuegos.find((videojuego) => videojuego.id === id);
+    const productoEnCarrito = carrito.find((videojuego) => videojuego.id === id);
+    if (productoEnCarrito) {
+        productoEnCarrito.cantidad++;
+    } else {
+        carrito.push(producto);
+    }
+    actualizarCarrito();
+};
+//Agrego una función que elimine el producto del carrito:
+const eliminarDelCarrito = (id) => {
+    const producto = carrito.find((videojuego) => videojuego.id === id);
+    carrito.splice(carrito.indexOf(producto), 1);
+    actualizarCarrito();
+};
+//Función para vaciar todo el carrito por completo:
+const vaciarCarrito = document.getElementById('vaciarCarrito');
+vaciarCarrito.addEventListener('click', () => {
+    carrito.splice(0, carrito.length);
+    actualizarCarrito();
+});
+//funciones flecha para sumar iva y agregar descuentos:
 const sumarIva = x => x*1.21;
 const restarDescuento = x => x*0.25;
+//Creo una función que me calcule el total del carrito:
+const totalCompra = document.getElementById('totalCompra');
+const calcularTotalCompra = () => {
+    let total = 0;
+    carrito.forEach((videojuego) => {
+    total += sumarIva(videojuego.precio);
+    });
+    totalCompra.innerHTML = total;
+};
 let precioProductoUno = sumarIva(videojuegos[0].precio);
 let precioProductoDos = sumarIva(videojuegos[1].precio);
 let precioProductoTres = sumarIva(videojuegos[2].precio);
@@ -108,13 +148,24 @@ function mostrarVideojuegos(videojuegos) {
         });
     });
 }
-const carrito = [];
-const agregarAlCarrito = (id) => {
-    const producto = videojuegos.find(videojuego => videojuego.id === id);
-    carrito.push(videojuego);
+
+function actualizarCarrito() {
+    let aux = '';
+    carrito.forEach((videojuego) => {
+        aux += `
+                <div class="card col-xl-3 col-md-6 col-sm-12">
+                    <img src="${videojuego.img}" class="card-img-top img-fluid py-3">
+                    <div class="card-body">
+                        <h3 class="card-title"> ${videojuego.nombre} </h3>
+                        <p class="card-text"> ${videojuego.precio} </p>
+                        <button onClick = "eliminarDelCarrito(${videojuego.id})" class="btn btn-primary"> Eliminar del Carrito </button>
+                    </div>
+                </div>
+                `;
+    });
+    contenedorCarrito.innerHTML = aux;
+    calcularTotalCompra();
 }
-const contenedorCarrito = document.getElementById('modalCart');
-const verCarrito = document.getElementById('carrito');
 function presentarInfo(videojuegos, clase) {
     videojuegos.forEach(videojuego => {
         videojuego.classList.toggle(clase);
