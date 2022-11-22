@@ -2,17 +2,26 @@ const usuarios = [
     {
         nombre: 'Gonzalo',
         email: 'hello@gmail.com',
-        password: '123456789'
+        password: '123456789',
+        numeroTarjetaSaved: '5555000099994444',
+        vencimientoTarjetaSaved: '530',
+        codigoSeguridadTarjetaSaved: '123'
     },
     {
         nombre: 'Roberto',
         email: 'roberto767@gmail.com',
-        password: '987654321'
+        password: '987654321',
+        numeroTarjetaSaved: '3555000099994444',
+        vencimientoTarjetaSaved: '333',
+        codigoSeguridadTarjetaSaved: '999'
     },
     {
         nombre: 'Victoria',
         email: 'vicky123@gmail.com',
-        password: 'abc123ac1'
+        password: 'abc123ac1',
+        numeroTarjetaSaved: '4555000099994444',
+        vencimientoTarjetaSaved: '777',
+        codigoSeguridadTarjetaSaved: '321'
     }
 ]
 const inputMailLogin = document.getElementById('emailLogin'),
@@ -23,12 +32,14 @@ const inputMailLogin = document.getElementById('emailLogin'),
     modal = new bootstrap.Modal(modalEl),
     contTarjetas = document.getElementById('tarjetas'),
     modalCart = document.getElementById('modalCart'),
+    btnVolver = document.getElementById('btnVolver'),
     elementosToggleables = document.querySelectorAll('.toggeable');
 //Muestro el carrito de compras modificando el DOM.
 const contenedorCarrito = document.getElementById('modalCart');
 const verCarrito = document.getElementById('carrito');
 //Opcion pagar del carrito de compras
-const pagar = document.getElementById('pagar');
+const btnPagar = document.getElementById('pagar');
+
 function ingresar(){
     const found = usuarios.find((usuario) => usuario.email == inputMailLogin.value);
     console.log(found)
@@ -47,7 +58,10 @@ function guardarDatos(usuarioDB, storage) {
     const usuario = {
         'name': usuarioDB.nombre,
         'user': usuarioDB.mail,
-        'pass': usuarioDB.pass
+        'pass': usuarioDB.pass,
+        'card': usuarioDB.card,
+        'vencimiento': usuarioDB.vencimiento,
+        'security': usuarioDB.security
     }
     storage.setItem('usuario', JSON.stringify(usuario));
 }
@@ -109,9 +123,9 @@ vaciarCarrito.addEventListener('click', () => {
     carrito.splice(0, carrito.length);
     actualizarCarrito();
 });
-//funciones flecha para sumar iva y agregar descuentos:
+//funciones flecha para sumar iva:
 const sumarIva = x => x*1.21;
-const restarDescuento = x => x*0.25;
+//const restarDescuento = x => x*0.25;
 //Creo una función que me calcule el total del carrito:
 const totalCompra = document.getElementById('totalCompra');
 const calcularTotalCompra = () => {
@@ -121,11 +135,55 @@ const calcularTotalCompra = () => {
     });
     totalCompra.innerHTML = total;
 };
-let precioProductoUno = sumarIva(videojuegos[0].precio);
-let precioProductoDos = sumarIva(videojuegos[1].precio);
-let precioProductoTres = sumarIva(videojuegos[2].precio);
-let precioProductoCuatro = sumarIva(restarDescuento(videojuegos[3].precio));
-let precioProductoCinco = sumarIva(videojuegos[4].precio);
+// funcion para pagar 
+const contPagar = document.getElementById('contPagar')
+function mostrarPago(){
+    btnPagar.addEventListener('click', () =>{
+        let pagar = document.createElement('div');
+        pagar.innerHTML = `<div class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">
+                Visa
+            </label>
+            </div>
+            <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+            <label class="form-check-label" for="flexCheckChecked">
+                Mastercard
+            </label>
+            </div>
+            </div>
+            <form>
+            <label> numero de tarjeta:</label>
+            <input type="name">
+            <label> Fecha de vencimiento:</label>
+            <input type="name">
+            <label> Codigo de seguridad:</label>
+            <input type="name">
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+            </div>
+        </div>
+        </div>`;
+        contPagar.innerHTML += pagar;
+    })
+}
+// let precioProductoUno = sumarIva(videojuegos[0].precio);
+// let precioProductoDos = sumarIva(videojuegos[1].precio);
+// let precioProductoTres = sumarIva(videojuegos[2].precio);
+// let precioProductoCuatro = sumarIva(restarDescuento(videojuegos[3].precio));
+// let precioProductoCinco = sumarIva(videojuegos[4].precio);
 function mostrarVideojuegos(videojuegos) {
     contTarjetas.innerHTML = '';
     let content = videojuegos.forEach(videojuego => {
