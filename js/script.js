@@ -1,7 +1,9 @@
-const usuarios = async function bringData(){
-    const response = await fetch('./js/usuariosDB.json');
-    const data = await response.json();
-}
+let usuarios = []
+fetch('./js/usuariosDB.json')
+.then((res) => res.json())
+.then((data) => {
+    usuarios = data
+})
 const inputMailLogin = document.getElementById('emailLogin'),
     inputPassLogin = document.getElementById('passwordLogin'),
     checkRecordar = document.getElementById('recordarme'),
