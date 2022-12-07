@@ -65,9 +65,6 @@ class Videojuego{
         this.descripcion = descripcion;
         this.vendido = false;
     }
-    vender(){
-        this.vendido = true;
-    }
 }
 const videojuegos = [
     new Videojuego('Cyberpunk 2077', 'CD PROJEKT RED', 'Sci-fi', 2020, 2199, 1, './assets/img/cyberpunk2077card.jpg', 'Cyberpunk 2077 es un mundo abierto, RPG de aventura y acción cituado en el oscuro futuro de Night City — una peligrosa megalopolis obsecionada con poder, glamour e incesantes modificaciones del cuerpo.'),
@@ -244,19 +241,6 @@ function actualizarCarrito() {
             eliminarDelCarrito(videojuego.id);})
     })
     calcularTotalCompra();
-}
-const comprarVideojuego = (vendido) => {
-    return new Promise((resolve, reject) => {
-        if (vendido){
-            resolve(
-                
-            )
-        } else{
-            reject(
-                Swal.fire('Prueba con elegir un videojuego', 'Hay muchas aventuras esperandote', 'info')
-            )
-        }
-    })
 }
 function presentarInfo(videojuegos, clase) {
     videojuegos.forEach(videojuego => {
