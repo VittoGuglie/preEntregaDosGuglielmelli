@@ -1,0 +1,26 @@
+[
+    {
+        "nombre":"Gonzalo",
+        "email":"hello@gmail.com",
+        "password":"123456789",
+        "cardNumber":"5555000099994444",
+        "vencimientoSaved":"02/25",
+        "codigoSeguridadSaved":"123"
+    },
+    {
+        "nombre":"Roberto",
+        "email":"roberto76@gmail.com",
+        "password":"zanahoria",
+        "cardNumber":"3555000099994444",
+        "vencimientoSaved":"05/24",
+        "codigoSeguridadSaved":"999"
+    },
+    {
+        "nombre":"Victoria",
+        "email":"vicky123@gmail.com",
+        "password":"abc123ac1",
+        "cardNumber":"4555000099994444",
+        "vencimientoSaved":"12/24",
+        "codigoSeguridadSaved":"321"
+    }
+]
