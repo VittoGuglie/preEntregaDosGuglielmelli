@@ -63,7 +63,6 @@ class Videojuego{
         this.id = id;
         this.img = img;
         this.descripcion = descripcion;
-        this.vendido = false;
     }
 }
 const videojuegos = [
